@@ -10,7 +10,8 @@
         "ejs": "~2.1.4",
         "request": "^2.69.0",
         "twitter": "~1.7.0",
-		"file-system": "~2.2.2"
+		"file-system": "~2.2.2",
+		"dotenv": "~4.0.0"
     },
 	
 	"repository": {

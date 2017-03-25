@@ -22,5 +22,4 @@ request.post(options, function(error, response, body) {
 
 		console.log("The file was saved!");
 	});
-    console.log(body); // <<<< This is your BEARER TOKEN !!!
 });
