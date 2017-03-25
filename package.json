@@ -1,0 +1,20 @@
+{
+    "name": "WEST",
+    "version": "0.1.0",
+	"license": "ISC",
+    "author": "Duvacher Damien <dduvacher@gmail.com>",
+    "description": "An explosive TweetWall",
+	
+    "dependencies": {
+        "express": "~4.11.0",
+        "ejs": "~2.1.4",
+        "request": "^2.69.0",
+        "twitter": "~1.7.0",
+		"file-system": "~2.2.2"
+    },
+	
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Dduvacher/WannaExplodeSomeTweets"
+	}
+}
