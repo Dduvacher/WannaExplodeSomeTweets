@@ -5,14 +5,21 @@
 	  <title>Tweet-Wall</title>
 	</head>
 	<body>
-		<h1>Défi Soixantes Circuit</h1>
-		<h2>Un Tweet-Wall explosif</h2>
-
+	
+		<!-- Script Part -->
 		<style>* {padding: 0; margin: 0}</style>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/4.4.3/pixi.min.js"></script>
 		<script>
+		
+			var socket = io.connect('http://localhost:8080');
+			
+			socket.on('tweet_stream', function(tweet){
+			$('#tweet').append(tweet+'<br>');
+			});
 			//Create the renderer
-			var renderer = PIXI.autoDetectRenderer(0,0);
+			/*var renderer = PIXI.autoDetectRenderer(0,0);
 			
 			renderer.view.style.position = "absolute";
 			renderer.view.style.display = "block";
@@ -26,7 +33,13 @@
 			var stage = new PIXI.Container();
 
 			//Tell the `renderer` to `render` the `stage`
-			renderer.render(stage);
+			renderer.render(stage);*/
 		</script>
+		
+		<!-- Layout Part -->
+		<h1>Defi Soixantes Circuit</h1>
+		<h2>Un Tweet-Wall explosif</h2>
+		
+		<div id="tweet"> </div>
 	</body>
 </html>

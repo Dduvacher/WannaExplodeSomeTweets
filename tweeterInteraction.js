@@ -1,28 +1,55 @@
 var request = require('request');
 var Twitter = require('twitter');
-var http = require('http');
-var express = require('express');
-var app = express();
+var fs = require('fs');
+
 require('dotenv').config();
 
 
-app.get('/tweetwall', function(req, res) {
-    res.render('tweetwallview.ejs');
+var app = require('http').createServer(function(req, res) {
+    fs.readFile('./views/mainview.html', 'utf-8', function(error, content) {
+        res.writeHead(200, {"Content-Type": "text/html"});
+        res.end(content);
+    });
+});
+var io = require('socket.io').listen(app);
+
+var twitter = new Twitter({
+    consumer_key: 'abcL7kmNE4QIundiHzNEt0xZh',
+    consumer_secret: 'KtabYRjUKCeXXlHxA1yenbjoL9wfT3hqU9CDVdgKHybw56L4rA',
+    access_token_key: '845604067628011520-W3gimsKlVugnsy3IexCSDkXYexJwNtw',
+    access_token_secret: 'ZCihcrk9g4oWeJ5mNxlL5aohXJmHkRPI2F5yienF3svvJ'
 });
 
-app.use(function(req, res, next){
-    res.setHeader('Content-Type', 'text/plain');
-    res.status(404).send('Page introuvable !');
+
+io.sockets.on('connection', function (socket) {
+	console.log('Socket.io connected');
+	
+	// STREAM TWITTER
+	twitter.stream('statuses/filter', { track: '#pixelart' },
+    function(stream) { 
+        stream.on('data', function( tweet ) {
+            var tweet_id = tweet.id_str;
+            var tweet_text = tweet.text;
+			io.sockets.volatile.emit('tweet_stream',
+                {
+                    id : tweet.id_str,
+                    text : tweet.text,
+					name : tweet.user.name,
+                    userName : tweet.user.screen_name,
+                    icon: tweet.user.profile_image_url
+                                    });
+            console.log(tweet_text);
+        });
+ 
+        stream.on('error', function ( error ) {
+            console.error(error);
+        });
+		//END STREAM TWITTER
+ 
+    });
 });
 
-var client = new Twitter({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  bearer_token: process.env.TWITTER_BEARER_TOKEN
-});
 
-/*client.get('search/tweets', {q: '#pixelart'}, function(error, tweets, response) {
-   console.log(tweets);
-});*/
-
+	
+  
 app.listen(8080);
