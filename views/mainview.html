@@ -15,11 +15,8 @@
 		
 			var socket = io.connect('http://localhost:8080');
 			
-			socket.on('tweet_stream', function(tweet){
-			$('#tweet').append(tweet+'<br>');
-			});
 			//Create the renderer
-			/*var renderer = PIXI.autoDetectRenderer(0,0);
+			var renderer = PIXI.autoDetectRenderer(0,0);
 			
 			renderer.view.style.position = "absolute";
 			renderer.view.style.display = "block";
@@ -31,9 +28,76 @@
 
 			//Create a container object called the `stage`
 			var stage = new PIXI.Container();
+			
 
 			//Tell the `renderer` to `render` the `stage`
-			renderer.render(stage);*/
+			renderer.render(stage);
+			
+			var tweets =[];
+			var tweetsRendering= [];
+			socket.on('tweet_stream', function(tweet){
+				tweets[tweets.length]=tweet;
+				
+					if(PIXI.loader.resources[tweet.icon] == null)
+					{
+						PIXI.loader
+							.add(tweet.icon)
+							.load(setup);						
+					}				
+			});
+				
+			
+			function setup() {
+				
+				
+				//container du tweet
+				tweetsRendering[tweetsRendering.length]=new PIXI.Container();
+				
+				//icone de l'utilisateur
+				iconUsr = new PIXI.Sprite(PIXI.loader.resources[tweets[tweets.length-1].icon].texture);
+				iconUsr.anchor.set(0.5,0);
+				
+				//texte du tweet
+				textTwt = new PIXI.Text(tweets[tweets.length-1].text,{fontFamily : 'Gotham', fontSize: 12, fill : 0x4099ff, align : 'center',wordWrap: true, wordWrapWidth: 150});
+				
+				//Positionnement des éléments
+				textTwt.y = iconUsr.height;
+				iconUsr.x = textTwt.width/2
+				
+				var textbg2 = new PIXI.Graphics();
+				textbg2.beginFill(0xFFFFFF, 1);
+				textbg2.drawRoundedRect(textTwt.x-10,iconUsr.y-10, textTwt.width+20, textTwt.height+iconUsr.height+20, 20);
+				textbg2.endFill();
+				
+				var textbg1 = new PIXI.Graphics();
+				textbg1.beginFill(0x4099ff, 1);
+				textbg1.drawRoundedRect(textTwt.x-12,iconUsr.y-12, textTwt.width+24, textTwt.height+iconUsr.height+24, 20);
+				textbg1.endFill();
+				
+				//ajout des elements au container principal
+				tweetsRendering[tweetsRendering.length-1].addChild(textbg1);
+				tweetsRendering[tweetsRendering.length-1].addChild(textbg2);
+				tweetsRendering[tweetsRendering.length-1].addChild(iconUsr);
+				tweetsRendering[tweetsRendering.length-1].addChild(textTwt);
+				
+				
+				//coordonnées aléatoires pour la position du tweet
+				var randx = randomInt(textbg1.width, renderer.width-(textbg1.width));
+				var randy = randomInt(textbg1.height, renderer.height-(textbg1.height));
+				//positionement du container principal
+				tweetsRendering[tweetsRendering.length-1].x = randx;
+				tweetsRendering[tweetsRendering.length-1].y = randy;
+					
+				for(rtwit of tweetsRendering)
+				{
+					stage.addChild(rtwit);
+				}
+				renderer.render(stage);				
+			}
+			
+			function randomInt(min, max) {
+			  return Math.floor(Math.random() * (max - min + 1)) + min;
+			}
 		</script>
 		
 		<!-- Layout Part -->
