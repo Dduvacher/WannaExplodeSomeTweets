@@ -10,8 +10,7 @@
         "request": "^2.69.0",
         "twitter": "~1.7.0",
 		"file-system": "~2.2.2",
-		"dotenv": "~4.0.0",
-		"pixi.js": "~4.4.3"
+		"dotenv": "~4.0.0"
     },
 	
 	"repository": {
