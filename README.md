@@ -14,7 +14,7 @@ run `npm install` in the folder, to install the required package.
 - file-system
 - dotenv
 
-##Configuration
+## Configuration
 
 ### Twitter Acces
 In the file .env, you must put your different token to allow the application to connect at Twitter:
@@ -33,7 +33,7 @@ Still in the .env file, you must declare the hashtag you want to show in the twe
 TWEETWALL_HASHTAG="your hashtag"
 ~~~
 
-##Run
+## Run
 
 When everything are set up you can run`node tweeterInteraction.js` in the folder, to run the application.
 Then you'll see the result at localhost:8080[localhost:8080](https://localhost:8080)
