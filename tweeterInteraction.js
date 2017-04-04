@@ -14,10 +14,10 @@ var app = require('http').createServer(function(req, res) {
 var io = require('socket.io').listen(app);
 
 var twitter = new Twitter({
-    consumer_key: 'abcL7kmNE4QIundiHzNEt0xZh',
-    consumer_secret: 'KtabYRjUKCeXXlHxA1yenbjoL9wfT3hqU9CDVdgKHybw56L4rA',
-    access_token_key: '845604067628011520-W3gimsKlVugnsy3IexCSDkXYexJwNtw',
-    access_token_secret: 'ZCihcrk9g4oWeJ5mNxlL5aohXJmHkRPI2F5yienF3svvJ'
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
 
@@ -25,7 +25,7 @@ io.sockets.on('connection', function (socket) {
 	console.log('Socket.io connected');
 	
 	// STREAM TWITTER
-	twitter.stream('statuses/filter', { track: '#pixelart' },
+	twitter.stream('statuses/filter', { track: process.env.TWEETWALL_HASHTAG },
     function(stream) { 
         stream.on('data', function( tweet ) {
             var tweet_id = tweet.id_str;
