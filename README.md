@@ -36,4 +36,4 @@ TWEETWALL_HASHTAG="your hashtag"
 ## Run
 
 When everything are set up you can run`node tweeterInteraction.js` in the folder, to run the application.
-Then you'll see the result at localhost:8080[localhost:8080](https://localhost:8080)
+Then you'll see the result at [localhost:8080](https://localhost:8080)
